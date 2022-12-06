@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux_state_management/riverpod_basic.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const RiverPodBasics());
+  runApp(const ProviderScope(child: RiverPodBasics()));
 }
 
 class MyApp extends StatelessWidget {

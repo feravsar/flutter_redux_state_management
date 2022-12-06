@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final titleProvider = Provider<String>((ref) => "RiverPod Basisc");
+final textProvider =
+    Provider<String>((ref) => 'You have pushed the button this many times:');
+
 class RiverPodBasics extends StatelessWidget {
   const RiverPodBasics({Key? key}) : super(key: key);
 
@@ -12,14 +16,13 @@ class RiverPodBasics extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -32,7 +35,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        /////////////// 1. YÖNTEM //////////////
+        title: Consumer(
+          builder: ((context, ref, child) {
+            var title = ref.watch(titleProvider);
+            return Text(title);
+          }),
+        ),
       ),
       body: Center(
         child: Column(
@@ -53,14 +62,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class MyText extends StatelessWidget {
+class MyText extends ConsumerWidget {
   const MyText({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const Text(
-      'You have pushed the button this many times:',
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    /////////// 2. YÖNTEM //////////////
+    return Text(ref.watch(textProvider));
   }
 }
 
