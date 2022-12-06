@@ -4,6 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final titleProvider = Provider<String>((ref) => "RiverPod Basisc");
 final textProvider =
     Provider<String>((ref) => 'You have pushed the button this many times:');
+final counterStateProvider = StateProvider<int>((ref) {
+  return 0;
+});
 
 class RiverPodBasics extends StatelessWidget {
   const RiverPodBasics({Key? key}) : super(key: key);
@@ -21,15 +24,8 @@ class RiverPodBasics extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -48,16 +44,17 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             MyText(),
-            CounterText(incrementer: _counter),
+            //CounterText(incrementer: _counter),
+            CounterText()
           ],
         ),
       ),
       floatingActionButton: MyIncrementer(
-        onIncrement: () {
+          /* onIncrement: () {
           _counter++;
           setState(() {});
-        },
-      ),
+        },*/
+          ),
     );
   }
 }
@@ -72,28 +69,31 @@ class MyText extends ConsumerWidget {
   }
 }
 
-class CounterText extends StatelessWidget {
-  final int incrementer;
-  const CounterText({Key? key, required this.incrementer}) : super(key: key);
+class CounterText extends ConsumerWidget {
+  //final int incrementer;
+  const CounterText({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var counter = ref.watch(counterStateProvider);
     return Text(
-      '$incrementer',
+      "$counter",
       style: Theme.of(context).textTheme.headline4,
     );
   }
 }
 
-class MyIncrementer extends StatelessWidget {
-  VoidCallback onIncrement;
-  MyIncrementer({Key? key, required this.onIncrement}) : super(key: key);
+class MyIncrementer extends ConsumerWidget {
+  //VoidCallback onIncrement;
+  MyIncrementer({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton(
       onPressed: () {
-        onIncrement();
+        ref.read(counterStateProvider.notifier).state++;
       },
       tooltip: 'Increment',
       child: const Icon(Icons.add),
