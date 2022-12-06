@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux_state_management/riverpod_basic.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
-  runApp(const RiverPodBasics());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class RiverPodBasics extends StatelessWidget {
+  const RiverPodBasics({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
